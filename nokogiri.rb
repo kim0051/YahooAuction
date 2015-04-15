@@ -89,7 +89,8 @@ def analyze(url, count, start_time, out)
   #Output Data
   i = 0
   items.each do |item|
-    out.puts(item + "," + nowPrices[i].to_s.sub(",", "") + "," + bids[i].to_s + "," + remains[i].to_s + "," + owners[i].to_s)# + "," + categories[i].to_s.sub(" ", "").chomp)
+
+    out.puts(item + "," + nowPrices[i].to_s.sub(",", "") + "," + sokketuPrices[i].to_s.sub(",", "") + "," +  bids[i].to_s + "," + remains[i].to_s + "," + owners[i].to_s + "," + (categories[i].to_s.gsub(/(\s)/,"").split("カテゴリ")[1]).to_s )
     i += 1
   end
 
@@ -123,6 +124,7 @@ start_time = Time.now
 p start_time
 # PUSH DATA
 File.open(start_time.strftime('%Y%m%d%H%M%S').to_s + '_Yahoo_auctions.csv', 'w') do |out|
+  out.puts("商品名,現在価格,即決価格,入札数,残り時間,出品者,カテゴリ")
   analyze(base_url, count, start_time, out)
 end
 p "=== end ==="
