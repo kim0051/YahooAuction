@@ -76,45 +76,82 @@ def analyze(url, count, start_time, out)
   i = 0
   items.each do |item|
 
-    out.puts(item + "," + nowPrices[i].to_s.sub(",", "") + "," + bids[i].to_s + "," + remains[i].to_s )
+    out.puts(item.sub(",", "、").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + nowPrices[i].to_s.sub(",", "").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + bids[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + remains[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + url )
     i += 1
   end
 
 
   #Get Next Link
   #doc.css('span').each do |item|
-  doc.xpath('//span[@class="next"]/a').each do |item|
+  #doc.xpath('//span[@class="next"]/a').each do |item|
+  item = doc.xpath('//span[@class="next"]/a')
 
-#   if /next/ =~ item[:class] then
-puts item
+  if item.length == 2 then
 
-      #suburl = item[0].child[:href]
-      suburl = item[:href]
-      puts suburl
+    #puts item[0]
 
-      count = count + 1
-      puts  count
-      
-      
-      analyze(suburl, count, start_time, out)
+    suburl = item[0][:href]
+    puts "Next  " + suburl
 
-#    else
-#    end
+    count = count + 1
+    puts  count
+
+    analyze(suburl, count, start_time, out)
+  else
+    end_time = Time.now
+    puts "Processing Time: " + (end_time - start_time).to_s + " Second"
+    return
   end
-  end_time = Time.now
-  puts "Processing Time: " + (end_time - start_time).to_s + " Second"
-  return
+
 end#EndofFunction
 
-base_url = "http://aucfan.com/search1/s-ya/c-ya_2084050403/?vmode=1&sellertype=i"
+
+#base_url = "http://aucfan.com/search1/s-ya/c-ya_2084050403/?vmode=1&sellertype=i"
+
+#条件 一般
+urls  = Array.new
+names = Array.new
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084055697/?vmode=1&sellertype=i")#非常食
+names.push("非常食")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_24034/?vmode=1&sellertype=i")#卵、乳製品
+names.push("卵、乳製品")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_24042/?vmode=1&sellertype=i")#調味料、スパイス
+names.push("調味料、スパイス")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006748/?vmode=1&sellertype=i")#米、穀類、シリアル
+names.push("米、穀類、シリアル")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_24054/?vmode=1&sellertype=i")#健康食品
+names.push("健康食品")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006750/?vmode=1&sellertype=i")#パスタ、麺類
+names.push("パスタ、麺類")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006751/?vmode=1&sellertype=i")#野菜、果物
+names.push("野菜、果物")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084042479/?vmode=1&sellertype=i")#加工食品
+names.push("加工食品")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084008374/?vmode=1&sellertype=i")#ミルク、ベビーフード
+names.push("ミルク、ベビーフード")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084049724/?vmode=1&sellertype=i")#パン
+names.push("パン")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006888/?vmode=1&sellertype=i")#ダイエット食品
+names.push("ダイエット食品")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_23982/?vmode=1&sellertype=i")#菓子、デザート
+names.push("菓子、デザート")
+urls.push("http://aucfan.com/search1/s-ya/c-ya_42164/?vmode=1&sellertype=i")#飲料
+names.push("飲料")
+#urls.push("")#
+#names.push("")
+
 
 
 p "===start==="
 start_time = Time.now
 p start_time
 # PUSH DATA
-File.open(start_time.strftime('%Y%m%d%H%M%S').to_s + '_aucfan.csv', 'w') do |out|
-  out.puts("商品名,落札価格,入札数,終了日時")
-  analyze(base_url, count, start_time, out)
+j = 0
+urls.each do |base_url|
+	File.open(start_time.strftime('%Y%m%d%H%M%S').to_s + '_' + names[j] + '_aucfan.csv', 'w', encoding: 'cp932') do |out|
+	  out.puts("商品名,落札価格,入札数,終了日時,URL")
+	  analyze(base_url, count, start_time, out)
+	  j += 1
+	end
 end
 p "=== end ==="
