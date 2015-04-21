@@ -76,7 +76,7 @@ def analyze(url, count, start_time, out)
   i = 0
   items.each do |item|
 
-    out.puts(item.sub(",", "、").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + nowPrices[i].to_s.sub(",", "").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + bids[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + remains[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + url )
+    out.puts(item.sub(",", "").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + nowPrices[i].to_s.sub(",", "").encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + bids[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + remains[i].to_s.encode("cp932",  :invalid => :replace, :undef => :replace, :replace => "?") + "," + url )
     i += 1
   end
 
@@ -111,35 +111,41 @@ end#EndofFunction
 #条件 一般
 urls  = Array.new
 names = Array.new
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084055697/?vmode=1&sellertype=i")#非常食
-names.push("非常食")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_24034/?vmode=1&sellertype=i")#卵、乳製品
-names.push("卵、乳製品")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_24042/?vmode=1&sellertype=i")#調味料、スパイス
-names.push("調味料、スパイス")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006748/?vmode=1&sellertype=i")#米、穀類、シリアル
-names.push("米、穀類、シリアル")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_24054/?vmode=1&sellertype=i")#健康食品
-names.push("健康食品")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006750/?vmode=1&sellertype=i")#パスタ、麺類
-names.push("パスタ、麺類")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006751/?vmode=1&sellertype=i")#野菜、果物
-names.push("野菜、果物")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084042479/?vmode=1&sellertype=i")#加工食品
-names.push("加工食品")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084008374/?vmode=1&sellertype=i")#ミルク、ベビーフード
-names.push("ミルク、ベビーフード")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084049724/?vmode=1&sellertype=i")#パン
-names.push("パン")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006888/?vmode=1&sellertype=i")#ダイエット食品
-names.push("ダイエット食品")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_23982/?vmode=1&sellertype=i")#菓子、デザート
-names.push("菓子、デザート")
-urls.push("http://aucfan.com/search1/s-ya/c-ya_42164/?vmode=1&sellertype=i")#飲料
-names.push("飲料")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084055697/?vmode=1&sellertype=i")#非常食
+#names.push("非常食")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_24034/?vmode=1&sellertype=i")#卵、乳製品
+#names.push("卵、乳製品")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_24042/?vmode=1&sellertype=i")#調味料、スパイス
+#names.push("調味料、スパイス")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006748/?vmode=1&sellertype=i")#米、穀類、シリアル
+#names.push("米、穀類、シリアル")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_24054/?vmode=1&sellertype=i")#健康食品
+#names.push("健康食品")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006750/?vmode=1&sellertype=i")#パスタ、麺類
+#names.push("パスタ、麺類")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006751/?vmode=1&sellertype=i")#野菜、果物
+#names.push("野菜、果物")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084042479/?vmode=1&sellertype=i")#加工食品
+#names.push("加工食品")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084008374/?vmode=1&sellertype=i")#ミルク、ベビーフード
+#names.push("ミルク、ベビーフード")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084049724/?vmode=1&sellertype=i")#パン
+#names.push("パン")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_2084006888/?vmode=1&sellertype=i")#ダイエット食品
+#names.push("ダイエット食品")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_23982/?vmode=1&sellertype=i")#菓子、デザート
+#names.push("菓子、デザート")
+#urls.push("http://aucfan.com/search1/s-ya/c-ya_42164/?vmode=1&sellertype=i")#飲料
+#names.push("飲料")
+urls.push("http://aucfan.com/search1/q-~bfa9c9ca/s-ya/c-24/t-201503/?o=t1")#
+names.push("３月")
+urls.push("http://aucfan.com/search1/q-~bfa9c9ca/s-ya/c-24/t-201502/?o=t1")#
+names.push("２月")
+urls.push("http://aucfan.com/search1/q-~bfa9c9ca/s-ya/c-24/t-201501/?o=t1")#
+names.push("１月")
+
 #urls.push("")#
 #names.push("")
-
 
 
 p "===start==="
